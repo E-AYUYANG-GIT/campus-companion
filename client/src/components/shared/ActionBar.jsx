@@ -12,7 +12,7 @@ function ActionBar() {
 
   return (
     <nav className="fixed bottom-0 left-auto right-auto max-w-[430px] w-full h-[70px] z-50
-                    bg-[#0b1120] border-t border-white/5 px-2 pt-2 
+                    bg-[#0b1120] border-t border-white/5 px-2 pt-2 pb-2
                     flex items-start justify-around shadow-[var(--shadow-card)] rounded-t-3xl"> 
 
       {navItems.map((item) => {
@@ -32,7 +32,7 @@ function ActionBar() {
                     flex items-center justify-center transition-all duration-200 ease-out absolute
                     ${isActive 
                       ? 'w-12 h-12 rounded-full bg-[#6e56cf] border-4 border-[#0b1120] bottom-7 text-white shadow-[0_8px_20px_rgba(110,86,207,0.45)]' 
-                      : 'w-8 h-8 text-[var(--color-text-muted)] hover:text-[var(--color-text)] bottom-6'
+                      : 'w-8 h-8 text-[var(--color-text-muted)]  border-4 border-[#0b1120]  hover:text-[var(--color-text)] bottom-6'
                     }
                   `}
                 >

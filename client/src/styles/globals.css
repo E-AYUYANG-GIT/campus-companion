@@ -63,7 +63,6 @@
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
-  padding: 0;
 }
 
 html, body, #root {
@@ -73,7 +72,6 @@ html, body, #root {
 
 body {
   font-family: var(--font-sans);
-  background-color: #0b1120; /* 🌟 Matches your bars perfectly on laptop screens */
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
