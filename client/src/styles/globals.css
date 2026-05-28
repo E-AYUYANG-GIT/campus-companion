@@ -92,6 +92,8 @@ body {
 
 .page-content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
   padding-top: var(--header-height);
   padding-bottom: var(--actionbar-height);

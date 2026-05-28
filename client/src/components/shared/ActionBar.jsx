@@ -13,7 +13,7 @@ function ActionBar() {
   return (
     <nav className="fixed bottom-0 left-auto right-auto max-w-[430px] w-full h-[70px] z-50
                     bg-[#0b1120] border-t border-white/5 px-2 pt-2 pb-2
-                    flex items-start justify-around shadow-[var(--shadow-card)] rounded-t-3xl"> 
+                    flex items-start justify-around shadow-[var(--shadow-card) z-50] rounded-t-3xl"> 
 
       {navItems.map((item) => {
         const Icon = item.icon
