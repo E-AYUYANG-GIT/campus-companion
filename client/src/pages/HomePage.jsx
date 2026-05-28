@@ -247,7 +247,7 @@ function EmergencyButton() {
             width: '150px',
             height: '150px',
             borderRadius: '50%',
-            border: 'none',
+            border: 'pink 1px solid',
             background: 'linear-gradient(180deg, #ef4444 0%, #b91c1c 100%)',
             boxShadow: holding
               ? '0 0 0 12px rgba(239,68,68,0.25), 0 0 0 24px rgba(239,68,68,0.1), 0 16px 40px rgba(185,28,28,0.5)'
