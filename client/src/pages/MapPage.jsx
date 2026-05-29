@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import SearchbarSection from '../components/shared/SearchbarSection';
 import BuildingModal from '../components/map/BuildingModal';
+import BuildingDetail from '../components/map/BuildingDetail';
+
 
 function MapOverlay() {
   return (
@@ -48,14 +50,15 @@ function MapOverlay() {
 }
 
 function MapPage() {
-  const [sheetY, setSheetY] = useState(65); // Initial peek position
+  const [sheetY, setSheetY] = useState(65);
   const [isDragging, setIsDragging] = useState(false);
-  
+  const [selectedBuilding, setSelectedBuilding] = useState(null); // NEW
+
   const dragStartPos = useRef(null);
   const dragStartY = useRef(null);
-  
-  const SNAP_POINTS = [65, 5]; // Peek and Full (5% instead of 10% for more "full" feel)
+  const SNAP_POINTS = [65, 5];
 
+  // ... drag handlers unchanged ...
   const handleDragStart = useCallback((clientY) => {
     setIsDragging(true);
     dragStartPos.current = clientY;
@@ -104,73 +107,79 @@ function MapPage() {
       };
     }
   }, [isDragging, handleDragMove, handleDragEnd]);
+  
+  const handleSelectBuilding = useCallback((building) => {
+    setSelectedBuilding(building);
+  }, []);
+
+  const handleCloseDetail = useCallback(() => {
+    setSelectedBuilding(null);
+  }, []);
 
   return (
-    <div style={{ 
-      position: 'relative', 
-      flex: 1, 
-      width: '100%', 
-      height: '100%', 
-      overflow: 'hidden',
-      display: 'flex',
-      flexDirection: 'column',
-      background: '#0b0f1a'
-    }}>
-      {/* Background Map */}
+    <div style={{ position: 'relative', flex: 1, width: '100%', height: '100%',
+      overflow: 'hidden', display: 'flex', flexDirection: 'column', background: '#0b0f1a' }}>
+
       <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
         <MapOverlay />
       </div>
 
-      {/* Bottom Sheet */}
+      {/* Sheet 1 — grey building list */}
       <div
         style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          top: `${sheetY}%`,
-          bottom: '-100px', // Extra buffer to ensure content can always scroll up
-          zIndex: 20,
+          position: 'absolute', left: 0, right: 0,
+          top: `${sheetY}%`, bottom: '-100px', zIndex: 20,
           background: '#0f172a',
           borderRadius: '28px 28px 0 0',
           boxShadow: '0 -12px 48px rgba(0,0,0,0.7)',
           transition: isDragging ? 'none' : 'top 0.5s cubic-bezier(0.19, 1, 0.22, 1)',
-          display: 'flex',
-          flexDirection: 'column',
-          willChange: 'top',
+          display: 'flex', flexDirection: 'column',
         }}
       >
-        {/* Drag Handle (Touch Target) */}
         <div
           onMouseDown={(e) => handleDragStart(e.clientY)}
           onTouchStart={(e) => handleDragStart(e.touches[0].clientY)}
           style={{
-            padding: '16px 0 24px',
-            display: 'flex',
-            justifyContent: 'center',
-            cursor: isDragging ? 'grabbing' : 'grab',
-            flexShrink: 0,
-            touchAction: 'none' // Prevent browser scroll while dragging handle
+            padding: '16px 0 24px', display: 'flex', justifyContent: 'center',
+            cursor: isDragging ? 'grabbing' : 'grab', flexShrink: 0, touchAction: 'none',
           }}
         >
-          <div style={{ 
-            width: '44px', 
-            height: '5px', 
-            borderRadius: '3px', 
-            background: 'rgba(255,255,255,0.25)',
-            boxShadow: '0 1px 2px rgba(0,0,0,0.2)'
-          }} />
+          <div style={{ width: '44px', height: '5px', borderRadius: '3px',
+            background: 'rgba(255,255,255,0.25)' }} />
         </div>
 
-        {/* Scrollable Content Container */}
-        <div 
-          style={{ 
-            flex: 1, 
-            overflowY: isDragging ? 'hidden' : 'auto', 
-            WebkitOverflowScrolling: 'touch',
-            paddingBottom: '120px' // Offset the negative bottom of parent
-          }}
-        >
-          <BuildingModal />
+        <div style={{ flex: 1, overflowY: isDragging ? 'hidden' : 'auto',
+          WebkitOverflowScrolling: 'touch', paddingBottom: '120px' }}>
+          <BuildingModal onSelectBuilding={handleSelectBuilding} />
+        </div>
+      </div>
+
+      {/* Sheet 2 — white building detail */}
+      <div
+        style={{
+          position: 'absolute', left: 0, right: 0,
+          top: selectedBuilding ? '12%' : '100%',  // slides up/down
+          bottom: '-100px', zIndex: 30,
+          background: '#ffffff',
+          borderRadius: '28px 28px 0 0',
+          boxShadow: '0 -12px 64px rgba(0,0,0,0.5)',
+          transition: 'top 0.45s cubic-bezier(0.19, 1, 0.22, 1)',
+          display: 'flex', flexDirection: 'column',
+        }}
+      >
+        {/* Handle */}
+        <div style={{ padding: '14px 0 10px', display: 'flex',
+          justifyContent: 'center', flexShrink: 0 }}>
+          <div style={{ width: '44px', height: '5px', borderRadius: '3px',
+            background: 'rgba(0,0,0,0.12)' }} />
+        </div>
+
+        {/* Scrollable detail content */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '0 16px 120px' }}>
+          <BuildingDetail
+            building={selectedBuilding}
+            onClose={handleCloseDetail}
+          />
         </div>
       </div>
     </div>

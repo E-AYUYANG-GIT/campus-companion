@@ -54,7 +54,7 @@ const BUILDINGS = [
   }
 ];
 
-function BuildingModal() {
+function BuildingModal({ onSelectBuilding }) {
   return (
     <div className="px-4 py-2 flex flex-col gap-1 pb-20">
       {/* Title Header */}
@@ -69,6 +69,7 @@ function BuildingModal() {
       <div className="flex flex-col gap-3">
         {BUILDINGS.map((building) => (
           <div 
+            onClick={() => onSelectBuilding(building)}  // ← 2. add onClick
             key={building.id}
             className="grid grid-cols-[auto_1fr_auto] gap-4 w-full items-center px-4 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all cursor-pointer active:scale-[0.98]"
           >
