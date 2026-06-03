@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage'
 import MapPage from './pages/MapPage'
 import ReportsPage from './pages/ReportsPage'
 import SettingsPage from './pages/SettingsPage'
+import SuccessPage from './pages/SuccessPage'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/map"     element={<MapPage />} />
           <Route path="/reports" element={<ReportsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/success" element={<SuccessPage />} />
         </Routes>
       </main>
 
